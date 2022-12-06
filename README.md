@@ -1,3 +1,14 @@
+Editions: 
+
+1. Added in header of include/System.h the following (without it,  build was raising errors): 
+```
+#include<unistd.h>
+```
+Solution found in this [link](https://github.com/raulmur/ORB_SLAM2/issues/778)
+
+2. Including mask in Fatures (working in progress)
+
+***
 # ORB-SLAM2
 **Authors:** [Raul Mur-Artal](http://webdiis.unizar.es/~raulmur/), [Juan D. Tardos](http://webdiis.unizar.es/~jdtardos/), [J. M. M. Montiel](http://webdiis.unizar.es/~josemari/) and [Dorian Galvez-Lopez](http://doriangalvez.com/) ([DBoW2](https://github.com/dorian3d/DBoW2))
 
