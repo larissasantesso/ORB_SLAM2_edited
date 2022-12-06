@@ -34,9 +34,13 @@ using namespace std;
 void LoadImages(const string &strPathToSequence, vector<string> &vstrImageLeft,
                 vector<string> &vstrImageRight, vector<double> &vTimestamps);
 
+void LoadImagesWithMask(const string &strPathToSequence, vector<string> &vstrImageLeft, vector<string> &vstrImageRight, 
+                        const string &strPathToSequence_mask, vector<string> &vstrMaskLeft, vector<string> &vstrMaskRight, 
+                        vector<double> &vTimestamps);
+
 int main(int argc, char **argv)
 {
-    if(argc != 4)
+    if((argc < 4)||(argc > 5))
     {
         cerr << endl << "Usage: ./stereo_kitti path_to_vocabulary path_to_settings path_to_sequence" << endl;
         return 1;
@@ -46,8 +50,14 @@ int main(int argc, char **argv)
     vector<string> vstrImageLeft;
     vector<string> vstrImageRight;
     vector<double> vTimestamps;
-    LoadImages(string(argv[3]), vstrImageLeft, vstrImageRight, vTimestamps);
-
+    if(argc==4)
+    {
+        LoadImages(string(argv[3]), vstrImageLeft, vstrImageRight, vTimestamps);
+    }
+    else if(argc==5)
+    {   
+        LoadImagesWithMask(string(argv[3]), vstrImageLeft, vstrImageRight, string(argv[4]), vstrMaskLeft, vstrMaskRight, vTimestamps);
+    }
     const int nImages = vstrImageLeft.size();
 
     // Create SLAM system. It initializes all system threads and gets ready to process frames.
@@ -63,6 +73,8 @@ int main(int argc, char **argv)
 
     // Main loop
     cv::Mat imLeft, imRight;
+    cv::Mat maskLeft, maskRight;
+  
     for(int ni=0; ni<nImages; ni++)
     {
         // Read left and right images from file
@@ -76,15 +88,24 @@ int main(int argc, char **argv)
                  << string(vstrImageLeft[ni]) << endl;
             return 1;
         }
+      
+        if(!vstrMaskLeft.empty())
+        {
+            maskLeft = cv::imread(vstrMaskLeft[ni],CV_LOAD_IMAGE_UNCHANGED);
+            maskRight = cv::imread(vstrMaskRight[ni],CV_LOAD_IMAGE_UNCHANGED);
+        }
 
 #ifdef COMPILEDWITHC11
         std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
 #else
         std::chrono::monotonic_clock::time_point t1 = std::chrono::monotonic_clock::now();
 #endif
-
         // Pass the images to the SLAM system
-        SLAM.TrackStereo(imLeft,imRight,tframe);
+        if(maskLeft.empty())
+            SLAM.TrackStereo(imLeft,imRight,tframe);
+        
+        else if(!maskLeft.empty())
+            SLAM.TrackStereoWithMask(imLeft,imRight,maskLeft,maskRight,tframe);
 
 #ifdef COMPILEDWITHC11
         std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
@@ -160,5 +181,51 @@ void LoadImages(const string &strPathToSequence, vector<string> &vstrImageLeft,
         ss << setfill('0') << setw(6) << i;
         vstrImageLeft[i] = strPrefixLeft + ss.str() + ".png";
         vstrImageRight[i] = strPrefixRight + ss.str() + ".png";
+    }
+}
+
+void LoadImagesWithMask(const string &strPathToSequence, vector<string> &vstrImageLeft,
+                vector<string> &vstrImageRight,  const string &strPathToSequence_mask, 
+                vector<string> &vstrMaskLeft, vector<string> &vstrMaskRight, vector<double> &vTimestamps)
+{
+    ifstream fTimes;
+    string strPathTimeFile = strPathToSequence + "/times.txt";
+    fTimes.open(strPathTimeFile.c_str());
+    while(!fTimes.eof())
+    {
+        string s;
+        getline(fTimes,s);
+        if(!s.empty())
+        {
+            stringstream ss;
+            ss << s;
+            double t;
+            ss >> t;
+            vTimestamps.push_back(t);
+        }
+    }
+
+    string strPrefixLeft = strPathToSequence + "/image_0/";
+    string strPrefixRight = strPathToSequence + "/image_1/";
+    
+    string strPrefixLeft_mask = strPathToSequence_mask + "/image_0/";
+    string strPrefixRight_mask = strPathToSequence_mask + "/image_1/";
+  
+    const int nTimes = vTimestamps.size();
+    vstrImageLeft.resize(nTimes);
+    vstrImageRight.resize(nTimes);
+    
+    vstrMaskLeft.resize(nTimes);
+    vstrMaskRight.resize(nTimes);
+
+    for(int i=0; i<nTimes; i++)
+    {
+        stringstream ss;
+        ss << setfill('0') << setw(6) << i;
+        vstrImageLeft[i] = strPrefixLeft + ss.str() + ".png";
+        vstrImageRight[i] = strPrefixRight + ss.str() + ".png";
+      
+        vstrMaskLeft[i] = strPrefixLeft_mask + ss.str() + ".png";
+        vstrMaskRight[i] = strPrefixRight_mask + ss.str() + ".png";
     }
 }
