@@ -6,7 +6,7 @@ Editions:
 ```
 Solution found in this [link](https://github.com/raulmur/ORB_SLAM2/issues/778)
 
-2. Including mask in Fatures (working in progress)
+2. Including mask in Features (working in progress)
 
 ***
 # ORB-SLAM2
