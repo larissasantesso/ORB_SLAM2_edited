@@ -1152,7 +1152,7 @@ void ORBextractor::operator()( InputArray _image, InputArray _mask, vector<KeyPo
 
     Mat image = _image.getMat();
     assert(image.type() == CV_8UC1 );
-    
+    vector < vector<KeyPoint> > allKeypoints;
     // If mask exists create matrix
     if(!_mask.empty())
     {
@@ -1165,15 +1165,15 @@ void ORBextractor::operator()( InputArray _image, InputArray _mask, vector<KeyPo
         // Pre-compute the scale pyramid of the image and mask
         ComputePyramidWithMask(image, mask);
         
-        vector < vector<KeyPoint> > allKeypoints;
+        //vector < vector<KeyPoint> > allKeypoints;
         ComputeKeyPointsOctTreeWithMask(allKeypoints);
     }
-    else if(_mask.empty())
+    else
     {
         // Pre-compute the scale pyramid only for the image if mask does not exist
         ComputePyramid(image);
         
-        vector < vector<KeyPoint> > allKeypoints;
+        //vector < vector<KeyPoint> > allKeypoints;
         ComputeKeyPointsOctTree(allKeypoints);
     }  
 
