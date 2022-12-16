@@ -49,6 +49,8 @@ int main(int argc, char **argv)
     // Retrieve paths to images
     vector<string> vstrImageLeft;
     vector<string> vstrImageRight;
+    vector<string> vstrMaskLeft;
+    vector<string> vstrMaskRight;
     vector<double> vTimestamps;
     if(argc==4)
     {
