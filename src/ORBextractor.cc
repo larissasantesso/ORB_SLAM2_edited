@@ -431,6 +431,7 @@ ORBextractor::ORBextractor(int _nfeatures, float _scaleFactor, int _nlevels,
     }
 
     mvImagePyramid.resize(nlevels);
+    mvMaskPyramid.resize(nlevels);
 
     mnFeaturesPerLevel.resize(nlevels);
     float factor = 1.0f / scaleFactor;
