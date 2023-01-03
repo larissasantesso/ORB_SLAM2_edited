@@ -1,12 +1,16 @@
 Editions: 
 
-1. Added in header of include/System.h the following (without it,  build was raising errors): 
+1. Added in header of include/System.h the following (without it,  build was raising errors). Solution found in this [link](https://github.com/raulmur/ORB_SLAM2/issues/778):
 ```
 #include<unistd.h>
 ```
-Solution found in this [link](https://github.com/raulmur/ORB_SLAM2/issues/778)
 
-2. Including mask in Features (working in progress)
+
+2. Included binary mask functionality applied to the Features:
+    - pixel value = 0: removes feature if located in this pixel
+    - pixel_value = 1: do not remove feature if located in this pixel
+    
+3. Implementing Cityscapes Stereo Examples (work in progress)
 
 ***
 # ORB-SLAM2
