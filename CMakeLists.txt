@@ -93,6 +93,10 @@ add_executable(stereo_kitti
 Examples/Stereo/stereo_kitti.cc)
 target_link_libraries(stereo_kitti ${PROJECT_NAME})
 
+add_executable(stereo_cityscapes
+Examples/Stereo/stereo_cityscapes.cc)
+target_link_libraries(stereo_cityscapes ${PROJECT_NAME})
+
 add_executable(stereo_euroc
 Examples/Stereo/stereo_euroc.cc)
 target_link_libraries(stereo_euroc ${PROJECT_NAME})
