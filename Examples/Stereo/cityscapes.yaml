@@ -7,24 +7,24 @@
 # Configuration file obtained from: https://github.com/mthz/slamantic/tree/master/Examples/Stereo
 
 # Camera calibration and distortion parameters (OpenCV) 
-Camera.fx: 1131.26
-Camera.fy: 1131.26
-Camera.cx: 548.49
-Camera.cy: 256.5685
+Camera.fx: 2268.36
+Camera.fy: 2225.54
+Camera.cx: 1048.64
+Camera.cy: 519.277
 
 Camera.k1: 0.0
 Camera.k2: 0.0
 Camera.p1: 0.0
 Camera.p2: 0.0
 
-Camera.width: 1024
-Camera.height: 512
+Camera.width: 2048
+Camera.height: 1024
 
 # Camera frames per second 
 Camera.fps: 20.0
 
 # stereo baseline times fx
-Camera.bf: 236.787
+Camera.bf: 503.862
 
 # Color order of the images (0: BGR, 1: RGB. It is ignored if images are grayscale)
 Camera.RGB: 1
