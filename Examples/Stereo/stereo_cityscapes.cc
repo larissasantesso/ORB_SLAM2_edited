@@ -155,6 +155,7 @@ void LoadImages(const string &strPathToSequence, vector<string> &vstrImageLeft,
 {
     ifstream fTimes;
     string strPathTimeFile = strPathToSequence + "/times.txt";
+    string strPathFrameName = strPathToSequence + "/frames.txt";
     fTimes.open(strPathTimeFile.c_str());
     while(!fTimes.eof())
     {
@@ -176,13 +177,16 @@ void LoadImages(const string &strPathToSequence, vector<string> &vstrImageLeft,
     const int nTimes = vTimestamps.size();
     vstrImageLeft.resize(nTimes);
     vstrImageRight.resize(nTimes);
-
-    for(int i=0; i<nTimes; i++)
+    
+    ifstream fFrames(strPathFrameName)
+      
+    while(!fFrames.eof())
     {
-        stringstream ss;
-        ss << setfill('0') << setw(6) << i;
-        vstrImageLeft[i] = strPrefixLeft + ss.str() + ".png";
-        vstrImageRight[i] = strPrefixRight + ss.str() + ".png";
+        string ss;
+        getline(fFrames, ss);
+      
+        vstrImageLeft[i] = strPrefixLeft + ss.str() + "_leftImg8bit.png";
+        vstrImageRight[i] = strPrefixRight + ss.str() + "_rightImg8bit.png";
     }
 }
 
