@@ -185,8 +185,8 @@ void LoadImages(const string &strPathToSequence, vector<string> &vstrImageLeft,
         string ss;
         getline(fFrames, ss);
       
-        vstrImageLeft[i] = strPrefixLeft + ss.str() + "_leftImg8bit.png";
-        vstrImageRight[i] = strPrefixRight + ss.str() + "_rightImg8bit.png";
+        vstrImageLeft[i] = strPrefixLeft + ss + "_leftImg8bit.png";
+        vstrImageRight[i] = strPrefixRight + ss + "_rightImg8bit.png";
     }
 }
 
