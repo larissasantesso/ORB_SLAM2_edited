@@ -178,18 +178,20 @@ void LoadImages(const string &strPathToSequence, vector<string> &vstrImageLeft,
     vstrImageLeft.resize(nTimes);
     vstrImageRight.resize(nTimes);
     
-    #ifstream fFrames(strPathFrameName);
+    ifstream fFrames;
     int i=0;
-    fFrames.open(strPathFrameName.c_str());
+    fTimes.open(strPathFrameName.c_str());
     while(!fFrames.eof())
     {
         string ss;
         
         getline(fFrames, ss);
-      
+        if(!ss.empty())
+        {
         vstrImageLeft[i] = strPrefixLeft + ss + "_leftImg8bit.png";
         vstrImageRight[i] = strPrefixRight + ss + "_rightImg8bit.png";
         i++;
+        }
     }
 }
 
