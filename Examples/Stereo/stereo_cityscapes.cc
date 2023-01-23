@@ -180,7 +180,7 @@ void LoadImages(const string &strPathToSequence, vector<string> &vstrImageLeft,
     
     ifstream fFrames;
     int i=0;
-    fTimes.open(strPathFrameName.c_str());
+    fFrames.open(strPathFrameName.c_str());
     while(!fFrames.eof())
     {
         string ss;
