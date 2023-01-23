@@ -178,7 +178,7 @@ void LoadImages(const string &strPathToSequence, vector<string> &vstrImageLeft,
     vstrImageLeft.resize(nTimes);
     vstrImageRight.resize(nTimes);
     
-    ifstream fFrames(strPathFrameName)
+    ifstream fFrames(strPathFrameName);
       
     while(!fFrames.eof())
     {
