@@ -179,14 +179,17 @@ void LoadImages(const string &strPathToSequence, vector<string> &vstrImageLeft,
     vstrImageRight.resize(nTimes);
     
     ifstream fFrames(strPathFrameName);
-      
+    int i=0;
+  
     while(!fFrames.eof())
     {
         string ss;
+        
         getline(fFrames, ss);
       
         vstrImageLeft[i] = strPrefixLeft + ss + "_leftImg8bit.png";
         vstrImageRight[i] = strPrefixRight + ss + "_rightImg8bit.png";
+        i++;
     }
 }
 
