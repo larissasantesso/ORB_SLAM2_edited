@@ -216,11 +216,11 @@ void LoadImagesWithMask(const string &strPathToSequence, vector<string> &vstrIma
         }
     }
 
-    string strPrefixLeft = strPathToSequence + "/image_0/";
-    string strPrefixRight = strPathToSequence + "/image_1/";
+    string strPrefixLeft = strPathToSequence + "/image_resized_0/";
+    string strPrefixRight = strPathToSequence + "/image_resized_1/";
     
-    string strPrefixLeft_mask = strPathToSequence_mask + "/image_0/";
-    string strPrefixRight_mask = strPathToSequence_mask + "/image_1/";
+    string strPrefixLeft_mask = strPathToSequence_mask + "/image_resized_0/";
+    string strPrefixRight_mask = strPathToSequence_mask + "/image_resized_1/";
   
     const int nTimes = vTimestamps.size();
     vstrImageLeft.resize(nTimes);
