@@ -201,6 +201,7 @@ void LoadImagesWithMask(const string &strPathToSequence, vector<string> &vstrIma
 {
     ifstream fTimes;
     string strPathTimeFile = strPathToSequence + "/times.txt";
+    string strPathFrameName = strPathToSequence + "/frames.txt";
     fTimes.open(strPathTimeFile.c_str());
     while(!fTimes.eof())
     {
@@ -218,25 +219,32 @@ void LoadImagesWithMask(const string &strPathToSequence, vector<string> &vstrIma
 
     string strPrefixLeft = strPathToSequence + "/image_resized_0/";
     string strPrefixRight = strPathToSequence + "/image_resized_1/";
-    
+  
     string strPrefixLeft_mask = strPathToSequence_mask + "/image_resized_0/";
     string strPrefixRight_mask = strPathToSequence_mask + "/image_resized_1/";
-  
+
     const int nTimes = vTimestamps.size();
     vstrImageLeft.resize(nTimes);
     vstrImageRight.resize(nTimes);
-    
     vstrMaskLeft.resize(nTimes);
     vstrMaskRight.resize(nTimes);
-
-    for(int i=0; i<nTimes; i++)
+    
+    ifstream fFrames;
+    int i=0;
+    fFrames.open(strPathFrameName.c_str());
+    while(!fFrames.eof())
     {
-        stringstream ss;
-        ss << setfill('0') << setw(6) << i;
-        vstrImageLeft[i] = strPrefixLeft + ss.str() + ".png";
-        vstrImageRight[i] = strPrefixRight + ss.str() + ".png";
-      
-        vstrMaskLeft[i] = strPrefixLeft_mask + ss.str() + ".png";
-        vstrMaskRight[i] = strPrefixRight_mask + ss.str() + ".png";
+        string ss;
+        
+        getline(fFrames, ss);
+        if(!ss.empty())
+        {
+        vstrImageLeft[i] = strPrefixLeft + ss + "_leftImg8bit.png";
+        vstrImageRight[i] = strPrefixRight + ss + "_rightImg8bit.png";
+        vstrMaskLeft[i] = strPrefixLeft_mask + ss + "_leftImg8bit.png";
+        vstrMaskRight[i] = strPrefixRight_mask + ss + "_rightImg8bit.png";
+        i++;
+        }
     }
 }
+  
