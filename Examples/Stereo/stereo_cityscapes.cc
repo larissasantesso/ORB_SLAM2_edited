@@ -40,9 +40,9 @@ void LoadImagesWithMask(const string &strPathToSequence, vector<string> &vstrIma
 
 int main(int argc, char **argv)
 {
-    if((argc < 4)||(argc > 5))
+    if((argc < 4)||(argc > 6))
     {
-        cerr << endl << "Usage: ./stereo_kitti path_to_vocabulary path_to_settings path_to_sequence" << endl;
+        cerr << endl << "Usage: ./stereo_kitti path_to_vocabulary path_to_settings path_to_sequence kernel_size" << endl;
         return 1;
     }
 
@@ -81,7 +81,7 @@ int main(int argc, char **argv)
     
     if(argc>5)
     {
-        kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(int(argv[5]),int(argv[5])));
+        kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(std::stoi(argv[5]),std::stoi(argv[5])));
     }
 
     for(int ni=0; ni<nImages; ni++)
@@ -109,8 +109,8 @@ int main(int argc, char **argv)
             }
             else
             {
-                maskRight = maskRightRaw
-                maskLeft = maskLeftRaw
+                maskRight = maskRightRaw;
+                maskLeft = maskLeftRaw;
             }
         }
 
