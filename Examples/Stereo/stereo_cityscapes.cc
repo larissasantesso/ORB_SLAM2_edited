@@ -106,14 +106,14 @@ int main(int argc, char **argv)
             if(!kernel.empty())
             {
                 // Right Mask
-                bitwise_not(maskRightRaw, maskRightRawInverted)
+                bitwise_not(maskRightRaw, maskRightRawInverted);
                 dilate(maskRightRawInverted, maskRightInverted, kernel);
-                bitwise_not(maskRightInverted, maskRight)
+                bitwise_not(maskRightInverted, maskRight);
 
                 // Left Mask
-                bitwise_not(maskLeftRaw, maskLeftRawInverted)
+                bitwise_not(maskLeftRaw, maskLeftRawInverted);
                 dilate(maskLeftRawInverted, maskLeftInverted, kernel);
-                bitwise_not(maskLeftInverted, maskLeft)
+                bitwise_not(maskLeftInverted, maskLeft);
             }
             else
             {
