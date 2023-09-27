@@ -75,8 +75,8 @@ int main(int argc, char **argv)
 
     // Main loop
     cv::Mat imLeft, imRight;
-    cv::Mat maskLeftRaw, maskRightRaw, maskLeftRawInverted, maskRightRawInverted;
-    cv::Mat maskLeft, maskRight, maskLeftInverted, maskRightInverted;
+    cv::Mat maskLeftRaw, maskRightRaw
+    cv::Mat maskLeft, maskRight
     cv::Mat kernel;
 
     
@@ -106,14 +106,12 @@ int main(int argc, char **argv)
             if(!kernel.empty())
             {
                 // Right Mask
-                bitwise_not(maskRightRaw, maskRightRawInverted);
-                dilate(maskRightRawInverted, maskRightInverted, kernel);
-                bitwise_not(maskRightInverted, maskRight);
+                erode(maskRightRaw, maskRight, kernel);
 
                 // Left Mask
-                bitwise_not(maskLeftRaw, maskLeftRawInverted);
-                dilate(maskLeftRawInverted, maskLeftInverted, kernel);
-                bitwise_not(maskLeftInverted, maskLeft);
+                // Since the masks need to be black because of the filter applied in the keyframes
+                // The erosion here will dilate the black masks.  
+                erode(maskLeftRaw, maskLeft, kernel);
             }
             else
             {
