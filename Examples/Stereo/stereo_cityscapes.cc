@@ -75,8 +75,8 @@ int main(int argc, char **argv)
 
     // Main loop
     cv::Mat imLeft, imRight;
-    cv::Mat maskLeftRaw, maskRightRaw
-    cv::Mat maskLeft, maskRight
+    cv::Mat maskLeftRaw, maskRightRaw;
+    cv::Mat maskLeft, maskRight;
     cv::Mat kernel;
 
     
