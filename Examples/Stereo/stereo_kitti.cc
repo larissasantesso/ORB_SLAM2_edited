@@ -40,9 +40,9 @@ void LoadImagesWithMask(const string &strPathToSequence, vector<string> &vstrIma
 
 int main(int argc, char **argv)
 {
-    if((argc < 4)||(argc > 5))
+    if((argc < 4)||(argc > 6))
     {
-        cerr << endl << "Usage: ./stereo_kitti path_to_vocabulary path_to_settings path_to_sequence" << endl;
+        cerr << endl << "Usage: ./stereo_kitti path_to_vocabulary path_to_settings path_to_sequence kernel_size" << endl;
         return 1;
     }
 
@@ -56,7 +56,7 @@ int main(int argc, char **argv)
     {
         LoadImages(string(argv[3]), vstrImageLeft, vstrImageRight, vTimestamps);
     }
-    else if(argc==5)
+    else if(argc>=5)
     {   
         LoadImagesWithMask(string(argv[3]), vstrImageLeft, vstrImageRight, string(argv[4]), vstrMaskLeft, vstrMaskRight, vTimestamps);
     }
@@ -75,8 +75,15 @@ int main(int argc, char **argv)
 
     // Main loop
     cv::Mat imLeft, imRight;
+    cv::Mat maskLeftRaw, maskRightRaw;
     cv::Mat maskLeft, maskRight;
-  
+    cv::Mat kernel;
+    
+    if(argc>5)
+    {
+        kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(std::stoi(argv[5]),std::stoi(argv[5])));
+    }
+
     for(int ni=0; ni<nImages; ni++)
     {
         // Read left and right images from file
@@ -93,8 +100,23 @@ int main(int argc, char **argv)
       
         if(!vstrMaskLeft.empty())
         {
-            maskLeft = cv::imread(vstrMaskLeft[ni],CV_LOAD_IMAGE_UNCHANGED);
-            maskRight = cv::imread(vstrMaskRight[ni],CV_LOAD_IMAGE_UNCHANGED);
+            maskLeftRaw = cv::imread(vstrMaskLeft[ni],CV_LOAD_IMAGE_UNCHANGED);
+            maskRightRaw = cv::imread(vstrMaskRight[ni],CV_LOAD_IMAGE_UNCHANGED);
+            if(!kernel.empty())
+            {
+                // Right Mask
+                erode(maskRightRaw, maskRight, kernel);
+
+                // Left Mask
+                // Since the masks need to be black because of the filter applied in the keyframes
+                // The erosion here will dilate the black masks.  
+                erode(maskLeftRaw, maskLeft, kernel);
+            }
+            else
+            {
+                maskRight = maskRightRaw;
+                maskLeft = maskLeftRaw;
+            }
         }
 
 #ifdef COMPILEDWITHC11
