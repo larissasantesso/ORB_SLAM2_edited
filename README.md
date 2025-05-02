@@ -10,7 +10,7 @@ Editions:
     - pixel value = 0: removes feature if located in this pixel
     - pixel_value = 1: do not remove feature if located in this pixel
     
-3. Implementing Cityscapes Stereo Examples (work in progress)
+3. Implemented Cityscapes Stereo Examples
 
 ***
 # ORB-SLAM2
